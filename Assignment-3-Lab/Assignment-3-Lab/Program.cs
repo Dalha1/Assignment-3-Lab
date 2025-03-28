@@ -40,7 +40,7 @@
                         if (AcceptNewEntryDisclaimer())
                         {
                             // TODO: call EnterDailyValues & assign its return value
-                            EnterDailyValues(dates, minutes, count);
+                           count = EnterDailyValues(dates, minutes, count);
                             Console.WriteLine($"\nEntries completed. {count} records in temporary memory.\n");
                         }
                         else
@@ -315,42 +315,42 @@
 
             Console.WriteLine("Hint: Enter -1 to cancel and exit.");
 
-            for (int i = 0; i < 31; i++)
+            do
             {
-                string currentDate = $"{year}-{month}-{(i + 1):d2}";
-
-
-                if (Array.IndexOf(dates, currentDate, 0, count) != -1)
+                for (int i = 1; i <= 31; i++)
                 {
-                    Console.WriteLine($"Date {currentDate} already exists. Skipping...");
-                    continue;
-                }
+                    Console.WriteLine();
+                    Console.Write($"Enter the minutes for day {i}: ");
+                    if (!double.TryParse(Console.ReadLine(), out value))
+                    {
+                        Console.WriteLine("Please enter a valid input.");
+                        i--; 
+                    }
 
-                Console.Write($"Enter the minutes for day {i + 1}: ");
-                if (!double.TryParse(Console.ReadLine(), out value))
-                {
-                    Console.WriteLine("Please enter a valid number.");
-                    i--;
-                    continue;
-                }
+                    if (value == -1)
+                    {
+                       
+                        break;
+                    }
 
-                if (value == -1)
-                {
-                    break;
-                }
+                    if (value >= 0)
+                    {
+                        string currentDate = $"{year}-{month}-{i:D2}";
+                        dates[count] = currentDate;
+                        values[count] = value;
+                        count++;
+                        
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please enter a valid input.");
+                        i--;  
+                        value = -1;
+                    }
 
-                if (value >= 0)
-                {
-                    dates[count] = currentDate;
-                    values[count] = value;
-                    count++;
+                    Console.WriteLine("Hint: Enter -1 to cancel and exit.");
                 }
-                else
-                {
-                    Console.WriteLine("Please enter a valid input (must be non-negative).");
-                    i--;
-                }
-            }
+            } while (value != -1);
 
             return count;
         }
@@ -359,6 +359,7 @@
             string[] validMonths = { "JAN", "FEB", "MAR", "APR", "MAY", "JUN",
                                    "JUL", "AUG", "SEP", "OCT", "NOV", "DEC" };
             return Array.IndexOf(validMonths, month) != -1;
+
         }
 
         // TODO: create the LoadFromFile method
@@ -446,12 +447,13 @@
         // TODO: create the DisplayEntries method
         static void DisplayEntries(string[] dates, double[] minutes, int count)
         {
-            Console.WriteLine("\n=== Daily Entries ===");
-            Console.WriteLine("No. | Date       | Minutes");
-            Console.WriteLine("----|-----------|---------");
+            Console.WriteLine("Current Entries");
+            Console.WriteLine("=====================\n");
+            Console.WriteLine("Date        Minutes");
+            Console.WriteLine("----------- -----------");
             for (int i = 0; i < count; i++)
             {
-                Console.WriteLine($"{i + 1,3} | {dates[i]} | {minutes[i],7:F2}");
+                Console.WriteLine($"{dates[i]}  {minutes[i],7:F2}");
             }
             Console.WriteLine("=====================");
         }
@@ -460,34 +462,57 @@
         // TODO: create the EditEntries method
         static void EditEntries(string[] dates, double[] minutes, int count)
         {
+            if (count == 0)
+            {
+                Console.WriteLine("Sorry, LOAD data or enter NEW data before EDITING.");
+                return;
+            }
+
             DisplayEntries(dates, minutes, count);
 
-            do
-            {
-                int index = PromptInt("Enter the number of the entry to edit (1-" + count + ") or 0 to finish: ");
-                if (index == 0) break;
+            string month = dates[0].Substring(5, 3);
+            string year = dates[0].Substring(0, 4);
+            Console.WriteLine($"You are currently editing data for: {month}-{year}");
 
-                index--; 
-                if (index >= 0 && index < count)
+            bool continueEditing = true;
+            while (continueEditing)
+            {
+                Console.Write("Enter the day of the month (e.g. 31) for which you want to edit the minutes value: ");
+                if (!int.TryParse(Console.ReadLine(), out int day) || day < 1 || day > 31)
                 {
-                    Console.WriteLine($"Current value for {dates[index]}: {minutes[index]}");
-                    double newValue = PromptDouble("Enter new minutes value: ");
-                    if (newValue >= 0)
-                    {
-                        minutes[index] = newValue;
-                        Console.WriteLine("Entry updated successfully!");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid value. Minutes must be non-negative.");
-                    }
+                    Console.WriteLine("Invalid day. Please enter a number between 1 and 31.");
+                    continue;
                 }
-                else
+
+                string dateToEdit = $"{year}-{month}-{day:D2}";
+                int index = Array.IndexOf(dates, dateToEdit, 0, count);
+
+                if (index == -1)
                 {
-                    Console.WriteLine("Invalid entry number!");
+                    Console.WriteLine($"No entry found for day {day}.");
+                    continue;
                 }
+
+                Console.Write($"Enter the NEW # of minutes for day {day}: ");
+                if (!double.TryParse(Console.ReadLine(), out double newValue) || newValue < 0)
+                {
+                    Console.WriteLine("Invalid input. Please enter a non-negative number.");
+                    continue;
+                }
+
+                minutes[index] = newValue;
+                Console.WriteLine($"Successfully changed value for day {day} to {newValue}.");
                 Console.WriteLine();
-            } while (true);
+
+                Console.Write("Do you wish to edit another value? (y/n) ");
+                continueEditing = Console.ReadLine().ToLower().StartsWith("y");
+
+                if (!continueEditing)
+                {
+                    Console.WriteLine("Hint: SAVE your changes to a file!");
+                    Console.WriteLine("Returning to MAIN MENU.");
+                }
+            }
         }
         // ++++++++++++++++++++++++++++++++++++ Difficulty 4 ++++++++++++++++++++++++++++++++++++
 

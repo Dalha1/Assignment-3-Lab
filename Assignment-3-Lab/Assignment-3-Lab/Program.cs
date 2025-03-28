@@ -15,14 +15,14 @@
             // TODO: 
             // declare a constant to represent the maximum size of the arrays
             // arrays must be large enough to store data for an entire month 
-            int maxDaysInMonth = 31;
+            const int MAX_DAYS_IN_MONTH = 31;
 
             // TODO:
             // create a string array named dates, using the max size constant you created above to specify the physical size of the array
-            string[] dates = new string[maxDaysInMonth];
+            string[] dates = new string[MAX_DAYS_IN_MONTH];
             // TODO:
             // create a double array named minutes, using the max size constant you created above to specify the physical size of the array
-            double[] minutes = new double[maxDaysInMonth];
+            double[] minutes = new double[MAX_DAYS_IN_MONTH];
             int count = 0;
             DisplayProgramIntro();
             // TODO: call DisplayMainMenu()
@@ -40,7 +40,7 @@
                         if (AcceptNewEntryDisclaimer())
                         {
                             // TODO: call EnterDailyValues & assign its return value
-                            EnterDailyValues();
+                            EnterDailyValues(dates, minutes, count);
                             Console.WriteLine($"\nEntries completed. {count} records in temporary memory.\n");
                         }
                         else
@@ -57,7 +57,7 @@
                         {
                             string filename = PromptForFilename();
                             // TODO: call SaveToFile()
-                            SaveToFile();
+                            SaveToFile(filename, dates, minutes, count);
                         }
                         else
                         {
@@ -73,7 +73,7 @@
                         else if (AcceptEditEntryDisclaimer())
                         {
                             //TODO: call EditEntries()
-                            EditEntries();
+                            EditEntries(dates, minutes, count);
                         }
                         else
                         {
@@ -85,7 +85,7 @@
                         {
                             string filename = Prompt("Enter name of file to load: ");
                             // TODO: call LoadFromFile() and assign its return value
-                            LoadFromFile();
+                            LoadFromFile(dates, minutes, filename);
                             Console.WriteLine($"{count} records were loaded.\n");
                         }
                         else
@@ -101,7 +101,7 @@
                         else
                         {
                             // TODO: call DisplayEntries()
-                            DisplayEntries();
+                            DisplayEntries(dates, minutes, count);
                         }
                         break;
                     case "M": //[M]onthly Statistics
@@ -161,22 +161,22 @@
                 {
                     case "A": //[A]verage 
                         // TODO: uncomment the next 2 lines & call CalculateMean();
-                        double mean = CalculateMean();
+                        double mean = CalculateMean(numbers, count);
                         Console.WriteLine($"The mean value for {month} {year} is: {mean:N2}.\n");
                         break;
                     case "H": //[H]ighest 
                         // TODO: uncomment the next 2 lines & call CalculateLargest();
-                        double largest = CalculateLargest();
+                        double largest = CalculateLargest(numbers, count);
                         Console.WriteLine($"The largest value for {month} {year} is: {largest:N2}.\n");
                         break;
                     case "L": //[L]owest 
                         //TODO: uncomment the next 2 lines & call CalculateSmallest();
-                        double smallest = CalculateSmallest();
+                        double smallest = CalculateSmallest(numbers, count);
                         Console.WriteLine($"The smallest value for {month} {year} is: {smallest:N2}.\n");
                         break;
                     case "G": //[G]raph 
                         //TODO: call DisplayChart()
-                        DisplayChart();
+                        DisplayChart(dates, numbers, count);
                         Prompt("Press <enter> to continue...");
                         break;
                     case "R": //[R]eturn to MAIN MENU
@@ -424,7 +424,7 @@
             }
         }
         // TODO: create the SaveToFile method
-        static void SaveToFile(string[] dates, double[] minutes, int count, string filename)
+        static void SaveToFile(string filename, string[] dates, double[] minutes, int count)
         {
             try
             {
@@ -492,7 +492,45 @@
         // ++++++++++++++++++++++++++++++++++++ Difficulty 4 ++++++++++++++++++++++++++++++++++++
 
         // TODO: create the DisplayChart method
+        static void DisplayChart(string[] dates, double[] minutes, int count)
+        {
+            if (count == 0) return;
 
+            Console.WriteLine($"\n=== Study Time for the month of {dates[0].Substring(5, 3)} ===\n");
+            double maxValue = CalculateLargest(minutes, count);
+            int maxBars = 40;
+            int yAxisSteps = 7;
+            double stepSize = maxValue / yAxisSteps;
+
+            for (int step = yAxisSteps; step >= 0; step--)
+            {
+                double currentValue = step * stepSize;
+                Console.Write($"{currentValue,6:F0}|");
+
+                for (int i = 0; i < count; i++)
+                {
+                    if (minutes[i] >= currentValue)
+                        Console.Write(" ||");
+                    else
+                        Console.Write("   ");
+                }
+                Console.WriteLine();
+            }
+
+            Console.Write("      |");
+            for (int i = 0; i < count; i++)
+            {
+                Console.Write("---");
+            }
+            Console.WriteLine();
+
+            Console.Write(" Days |");
+            for (int i = 0; i < count; i++)
+            {
+                Console.Write($" {dates[i].Substring(9, 2)}");
+            }
+            Console.WriteLine("\n");
+        }
         // ********************************* Helper methods *********************************
 
         /// <summary>

@@ -200,9 +200,11 @@
         // TODO: create the DisplayMainMenu() method
         static void DisplayMainMenu()
         {
+            // Display main menu heading 
             Console.WriteLine("Main Menu");
             Console.WriteLine("----------------------------------------");
             Console.WriteLine();
+            // Display Main menu options 
             Console.WriteLine("[N]ew Daily Entries");
             Console.WriteLine("[S]ave Entries to File");
             Console.WriteLine("[E]dit Entries");
@@ -218,6 +220,7 @@
         // TODO: create the DisplayAnalysisMenu() method
         static void DisplayAnalysisMenu()
         {
+            // Display Analysis sub menu heading and options 
             Console.WriteLine("ANALYSIS SUB-MENU");
             Console.WriteLine("------------------------------------");
             Console.WriteLine("[A]verage");
@@ -232,12 +235,14 @@
         // TODO: create the Prompt method
         static string Prompt(string promptMessage)
         {
+            // Display prompt and return user input
             Console.Write(promptMessage);
             return Console.ReadLine();
         }
         // TODO: create the PromptDouble() method
         static double PromptDouble(string promptMessage)
         {
+            // Continue prompting until valid double is entered
             double value;
             while (!double.TryParse(Prompt(promptMessage), out value))
             {
@@ -248,6 +253,7 @@
         // optional TODO: create the PromptInt() method
         static int PromptInt(string promptMessage)
         {
+            // Continue prompting until valid integer is entered
             int value;
             while (!int.TryParse(Prompt(promptMessage), out value))
             {
@@ -258,7 +264,9 @@
         // TODO: create the CalculateLargest() method
         static double CalculateLargest(double[] values, int countOfEntries)
         {
+            // Initialize largest with first value
             double largest = values[0];
+            // Compare with remaining values
             for (int i = 1; i < countOfEntries; i++)
             {
                 if (values[i] > largest)
@@ -269,7 +277,9 @@
         // TODO: create the CalculateSmallest() method
         static double CalculateSmallest(double[] values, int countOfEntries)
         {
+            // Initialize smallest with first value
             double smallest = values[0];
+            // Compare with remaining values
             for (int i = 1; i < countOfEntries; i++)
             {
                 if (values[i] < smallest)
@@ -280,11 +290,13 @@
         // TODO: create the CalculateMean() method
         static double CalculateMean(double[] values, int countOfEntries)
         {
+            // Calculate sum of all values
             double sum = 0;
             for (int i = 0; i < countOfEntries; i++)
             {
                 sum += values[i];
             }
+            // Return average (sum divided by count)
             return sum / countOfEntries;
         }
 
@@ -293,10 +305,11 @@
         // TODO: create the EnterDailyValues method
         static int EnterDailyValues(string[] dates, double[] values, int count)
         {
+            // Initialize variables
             string month = string.Empty;
             int year = 0;
             double value = 0.0;
-
+            // Get and validate month input
             Console.Write("Enter the month (e.g. JAN): ");
             month = Console.ReadLine().ToUpper();
             while (!IsValidMonth(month))
@@ -309,30 +322,33 @@
 
             do
             {
+                // Get and validate year input
                 Console.Write("Enter the year (yyyy): ");
             } while (!int.TryParse(Console.ReadLine(), out year) || year < 2000 || year >= 2025);
             Console.WriteLine();
 
             Console.WriteLine("Hint: Enter -1 to cancel and exit.");
-
+            // Main input loop
             do
             {
+                // Process each day of the month
                 for (int i = 1; i <= 31; i++)
                 {
                     Console.WriteLine();
                     Console.Write($"Enter the minutes for day {i}: ");
+                    // Validate numeric input
                     if (!double.TryParse(Console.ReadLine(), out value))
                     {
                         Console.WriteLine("Please enter a valid input.");
-                        i--; 
+                        i--; // Retry same day
                     }
-
+                    // Check for exit condition
                     if (value == -1)
                     {
                        
                         break;
                     }
-
+                    // Process valid input
                     if (value >= 0)
                     {
                         string currentDate = $"{year}-{month}-{i:D2}";
@@ -344,7 +360,7 @@
                     else
                     {
                         Console.WriteLine("Please enter a valid input.");
-                        i--;  
+                        i--;  // Retry same day
                         value = -1;
                     }
 
@@ -365,29 +381,38 @@
         // TODO: create the LoadFromFile method
         static int LoadFromFile(string[] dates, double[] minutes, string filename)
         {
+            // Initialize counter for number of records loaded
             int count = 0;
             try
             {
+                // Attempt to open and read the file using StreamReader
                 using (StreamReader reader = new StreamReader(filename))
                 {
+                    // Read the first line which should be the heading
                     string header = reader.ReadLine();
+                    // Verify the file has the correct header format
                     if (header != "Date,Minutes")
                     {
                         throw new Exception("Invalid file format. Expected 'Date,Minutes' header.");
                     }
-
+                    // Read the file line by line
                     string line;
                     while ((line = reader.ReadLine()) != null && count < dates.Length)
                     {
+                        // Split each line into date and minutes parts
                         string[] parts = line.Split(',');
+                        // Verify line has both date and minutes
                         if (parts.Length == 2 && double.TryParse(parts[1], out double value))
                         {
+                            // Validate the date format (YYYY-MMM-DD)
                             if (!IsValidDateFormat(parts[0]))
                             {
                                 throw new Exception($"Invalid date format: {parts[0]}. Expected YYYY-MMM-DD");
                             }
+                            // Store the valid date and minutes in arrays
                             dates[count] = parts[0];
                             minutes[count] = value;
+                            // Increment counter for successful record
                             count++;
                         }
                     }
@@ -395,9 +420,11 @@
             }
             catch (Exception ex)
             {
+                // Handle any errors (file not found, format issues, etc.)
                 Console.WriteLine($"Error loading file: {ex.Message}");
-                return 0;
+                return 0;// Return 0 to indicate no records were loaded
             }
+            // Return the number of records successfully loaded
             return count;
         }
 
@@ -429,28 +456,38 @@
         {
             try
             {
+                // Create or open file for writing using StreamWriter
                 using (StreamWriter writer = new StreamWriter(filename))
                 {
+                    // Write the required header line
                     writer.WriteLine("Date,Minutes");
+                    // Write each record from the arrays
                     for (int i = 0; i < count; i++)
                     {
+                        // Format each line as: date,minutes
+                        // Minutes formatted to 2 decimal places
                         writer.WriteLine($"{dates[i]},{minutes[i]:F2}");
                     }
                 }
+                // Confirm successful save to user
                 Console.WriteLine($"Data saved successfully to {filename}");
             }
             catch (Exception ex)
             {
+                // Handle any errors (permission issues, disk full, etc.)
                 Console.WriteLine($"Error saving file: {ex.Message}");
             }
         }
         // TODO: create the DisplayEntries method
         static void DisplayEntries(string[] dates, double[] minutes, int count)
         {
+            // Display header
             Console.WriteLine("Current Entries");
             Console.WriteLine("=====================\n");
+            // Display column headers
             Console.WriteLine("Date        Minutes");
             Console.WriteLine("----------- -----------");
+            // Display each entry
             for (int i = 0; i < count; i++)
             {
                 Console.WriteLine($"{dates[i]}  {minutes[i],7:F2}");
@@ -462,14 +499,15 @@
         // TODO: create the EditEntries method
         static void EditEntries(string[] dates, double[] minutes, int count)
         {
+            // Check for data to edit
             if (count == 0)
             {
                 Console.WriteLine("Sorry, LOAD data or enter NEW data before EDITING.");
                 return;
             }
-
+            // Show current data
             DisplayEntries(dates, minutes, count);
-
+            // Get month and year from first entry
             string month = dates[0].Substring(5, 3);
             string year = dates[0].Substring(0, 4);
             Console.WriteLine($"You are currently editing data for: {month}-{year}");
@@ -477,13 +515,14 @@
             bool continueEditing = true;
             while (continueEditing)
             {
+                // Get day to edit
                 Console.Write("Enter the day of the month (e.g. 31) for which you want to edit the minutes value: ");
                 if (!int.TryParse(Console.ReadLine(), out int day) || day < 1 || day > 31)
                 {
                     Console.WriteLine("Invalid day. Please enter a number between 1 and 31.");
                     continue;
                 }
-
+                // Find entry to edit
                 string dateToEdit = $"{year}-{month}-{day:D2}";
                 int index = Array.IndexOf(dates, dateToEdit, 0, count);
 
@@ -492,18 +531,18 @@
                     Console.WriteLine($"No entry found for day {day}.");
                     continue;
                 }
-
+                // Get new value
                 Console.Write($"Enter the NEW # of minutes for day {day}: ");
                 if (!double.TryParse(Console.ReadLine(), out double newValue) || newValue < 0)
                 {
                     Console.WriteLine("Invalid input. Please enter a non-negative number.");
                     continue;
                 }
-
+                // Update and confirm
                 minutes[index] = newValue;
                 Console.WriteLine($"Successfully changed value for day {day} to {newValue}.");
                 Console.WriteLine();
-
+                // Check if user wants to continue
                 Console.Write("Do you wish to edit another value? (y/n) ");
                 continueEditing = Console.ReadLine().ToLower().StartsWith("y");
 
@@ -519,43 +558,50 @@
         // TODO: create the DisplayChart method
         static void DisplayChart(string[] dates, double[] minutes, int count)
         {
+            // Exit if no data to display
             if (count == 0) return;
-
+            // Display the chart title with the month from the first date
             Console.WriteLine($"\n=== Study Time for the month of {dates[0].Substring(5, 3)} ===\n");
+            // Find the maximum value for scaling the chart
             double maxValue = CalculateLargest(minutes, count);
+            // Set up chart parameters
             int maxBars = 40;
             int yAxisSteps = 7;
-            double stepSize = maxValue / yAxisSteps;
-
+            double stepSize = maxValue / yAxisSteps;// Calculate size of each step
+            // Draw Y-axis scale and bars
             for (int step = yAxisSteps; step >= 0; step--)
             {
+                // Calculate and display the current scale value
                 double currentValue = step * stepSize;
                 Console.Write($"{currentValue,6:F0}|");
-
+                // Draw horizontal bars for each data point at this level
                 for (int i = 0; i < count; i++)
                 {
+                    // If value meets or exceeds current level, draw bar segment
                     if (minutes[i] >= currentValue)
                         Console.Write(" ||");
                     else
-                        Console.Write("   ");
+                        Console.Write("   "); // Empty space if value is below current level
                 }
-                Console.WriteLine();
+                Console.WriteLine();// Move to next line after drawing all points
             }
-
-            Console.Write("      |");
+            // Draw X-axis base line
+            Console.Write("      |");// Align with scale values
             for (int i = 0; i < count; i++)
             {
-                Console.Write("---");
+                Console.Write("---"); // Draw base line segments
             }
             Console.WriteLine();
-
+            // Draw X-axis labels (days)
             Console.Write(" Days |");
             for (int i = 0; i < count; i++)
             {
+                // Display day number from date string
                 Console.Write($" {dates[i].Substring(9, 2)}");
             }
-            Console.WriteLine("\n");
+            Console.WriteLine("\n");// Add extra line for spacing
         }
+    }
         // ********************************* Helper methods *********************************
 
         /// <summary>

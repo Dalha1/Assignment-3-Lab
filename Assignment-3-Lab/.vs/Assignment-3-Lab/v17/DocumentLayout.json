@@ -3,11 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\Goats\\OneDrive\\Desktop\\Programing Fundamentles\\1012-jan-2025-a03-workbook-Dalha1\\Assignment-3-Lab\\Assignment-3-Lab\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Goats\\Downloads\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{C1B839F3-3AFD-4900-B286-24A83DC0144A}|Assignment-3-Lab\\Assignment-3-Lab.csproj|c:\\users\\goats\\onedrive\\desktop\\programing fundamentles\\1012-jan-2025-a03-workbook-dalha1\\assignment-3-lab\\assignment-3-lab\\assignment-3-lab\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C1B839F3-3AFD-4900-B286-24A83DC0144A}|Assignment-3-Lab\\Assignment-3-Lab.csproj|solutionrelative:assignment-3-lab\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1B839F3-3AFD-4900-B286-24A83DC0144A}|Assignment-3-Lab\\Assignment-3-Lab.csproj|c:\\users\\goats\\onedrive\\desktop\\programing fundamentles\\1012-jan-2025-a03-workbook-dalha1\\assignment-3-lab\\assignment-3-lab\\assignment-3-lab\\assignment-3-lab.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{C1B839F3-3AFD-4900-B286-24A83DC0144A}|Assignment-3-Lab\\Assignment-3-Lab.csproj|solutionrelative:assignment-3-lab\\assignment-3-lab.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -17,8 +18,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Assignment-3-Lab",
+              "DocumentMoniker": "C:\\Users\\Goats\\OneDrive\\Desktop\\Programing Fundamentles\\1012-jan-2025-a03-workbook-Dalha1\\Assignment-3-Lab\\Assignment-3-Lab\\Assignment-3-Lab\\Assignment-3-Lab.csproj",
+              "RelativeDocumentMoniker": "Assignment-3-Lab\\Assignment-3-Lab.csproj",
+              "ToolTip": "C:\\Users\\Goats\\OneDrive\\Desktop\\Programing Fundamentles\\1012-jan-2025-a03-workbook-Dalha1\\Assignment-3-Lab\\Assignment-3-Lab\\Assignment-3-Lab\\Assignment-3-Lab.csproj",
+              "RelativeToolTip": "Assignment-3-Lab\\Assignment-3-Lab.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-03-28T09:12:11.521Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
@@ -35,24 +49,11 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Goats\\Downloads\\Program.cs",
-              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Downloads\\Program.cs",
-              "ToolTip": "C:\\Users\\Goats\\Downloads\\Program.cs",
-              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\Downloads\\Program.cs",
-              "ViewState": "AgIAAFQAAAAAAAAAAAAAAHIAAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-25T23:07:02.556Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Goats\\OneDrive\\Desktop\\Programing Fundamentles\\1012-jan-2025-a03-workbook-Dalha1\\Assignment-3-Lab\\Assignment-3-Lab\\Assignment-3-Lab\\Program.cs",
               "RelativeDocumentMoniker": "Assignment-3-Lab\\Program.cs",
               "ToolTip": "C:\\Users\\Goats\\OneDrive\\Desktop\\Programing Fundamentles\\1012-jan-2025-a03-workbook-Dalha1\\Assignment-3-Lab\\Assignment-3-Lab\\Assignment-3-Lab\\Program.cs",
               "RelativeToolTip": "Assignment-3-Lab\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAcCAAAAAAAAAAAYwAIAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-25T23:06:29.538Z",
               "EditorCaption": ""

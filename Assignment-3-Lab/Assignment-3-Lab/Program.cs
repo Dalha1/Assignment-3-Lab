@@ -246,7 +246,15 @@
             return value;
         }
         // optional TODO: create the PromptInt() method
-
+        static int PromptInt(string promptMessage)
+        {
+            int value;
+            while (!int.TryParse(Prompt(promptMessage), out value))
+            {
+                Console.WriteLine("Invalid input. Please enter a valid integer.");
+            }
+            return value;
+        }
         // TODO: create the CalculateLargest() method
         static double CalculateLargest(double[] values, int countOfEntries)
         {
@@ -450,7 +458,37 @@
         // ++++++++++++++++++++++++++++++++++++ Difficulty 3 ++++++++++++++++++++++++++++++++++++
 
         // TODO: create the EditEntries method
+        static void EditEntries(string[] dates, double[] minutes, int count)
+        {
+            DisplayEntries(dates, minutes, count);
 
+            do
+            {
+                int index = PromptInt("Enter the number of the entry to edit (1-" + count + ") or 0 to finish: ");
+                if (index == 0) break;
+
+                index--; 
+                if (index >= 0 && index < count)
+                {
+                    Console.WriteLine($"Current value for {dates[index]}: {minutes[index]}");
+                    double newValue = PromptDouble("Enter new minutes value: ");
+                    if (newValue >= 0)
+                    {
+                        minutes[index] = newValue;
+                        Console.WriteLine("Entry updated successfully!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid value. Minutes must be non-negative.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid entry number!");
+                }
+                Console.WriteLine();
+            } while (true);
+        }
         // ++++++++++++++++++++++++++++++++++++ Difficulty 4 ++++++++++++++++++++++++++++++++++++
 
         // TODO: create the DisplayChart method
